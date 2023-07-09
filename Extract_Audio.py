@@ -50,16 +50,16 @@ def okok():
         logger.warning("selected_files: ")
         logger.warning(selected_files)
     numbering = 0
-    for p in selo:# selo:
-        logger.warning("p : ")
-        logger.warning(p)
+    for ppp in selo:# selo:
+        logger.warning("ppp : ")
+        logger.warning(ppp)
         if test == 0:
             logger.warning("not a test")
             #Escape karakter
-            #file_path = p.replace(" ", "\ ").replace("(", "\(").replace(")", "\)")
+            #file_path = ppp.replace(" ", "\ ").replace("(", "\(").replace(")", "\)")
             #file_path = file_path.replace("(", "\(")
             #file_path = file_path.replace(")", "\)")
-            file_path = p
+            file_path = ppp
         else:
             file_path = selected_files
             logger.warning("test")
@@ -81,16 +81,16 @@ def okok():
         logger.warning(kivalasztott_sorszam)
         logger.warning("LOOPOLGATAS")
         lang = []
-        jj = get_metadata(file_audio_languages,kivalasztott_sorszam[numbering]) #get file_audio_languages
-        for ww in jj:
-            lang.append(ww)
+        jjj = get_metadata(file_audio_languages,kivalasztott_sorszam[numbering]) #get file_audio_languages
+        for www in jjj:
+            lang.append(www)
  #       for u in kivalasztott_sorszam:
  #           logger.warning(u)
  #           lang = []
   #          for w in file_audio_languages[u]:
- # #              jj = w.replace("", "")
- #               jj = w.strip("'")
- #               lang.append(jj)
+ # #              jjj = w.replace("", "")
+ #               jjj = w.strip("'")
+ #               lang.append(jjj)
  #               logger.warning(lang)
  #           logger.warning(lang)
         logger.warning(lang)
