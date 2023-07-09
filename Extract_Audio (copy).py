@@ -14,7 +14,7 @@ selo = 0
 kivalasztott_sorszam = []
 #print('The script was run from', folder_path)
 #print('The selected files/folders:\n', selected_files)
-#0001578
+#0001
 
 if test == 0:
     print("Nem teszt")
@@ -105,8 +105,8 @@ def okok():
         numbering += 1
 def get_metadata(typey,number):
     return typey[number]
-
-
+    
+    
 
 # Define the arrays to store the information
 file_names = []
@@ -174,7 +174,7 @@ def get_media_info():
                         except KeyError:
                             try:
                                 video_durations.append(stream['tags']['DURATION'])# mkv2
-                            except KeyError:
+                            except KeyError:    
  #                           finally:#if there is no duration, get from the audio
                                 video_durations.append(video_info["format"]['duration'])
 #                               pass
@@ -204,7 +204,7 @@ def get_media_info():
             audio_languages = []
             audio_duration = []
             audio_codec = []
-            audio_def = []
+            audio_def = [] 
             audio_forced = []
             for stream in video_info['streams']:
                 if stream['codec_type'] == 'audio':
@@ -250,7 +250,7 @@ def get_media_info():
                     except KeyError:
                         sub_languages.append('und')
                     try:
-                        sub_duration.append(stream['duration'])#??????? Audiobol masolva.,  nem tudom suboknal is elofordulhat e hogy így szerepel
+                        sub_duration.append(stream['duration'])    #??????? Audiobol masolva.,  nem tudom suboknal is elofordulhat e hogy így szerepel
                     except KeyError:
                         try:
                             sub_duration.append(stream['tags']['DURATION-eng'])
@@ -270,16 +270,16 @@ def get_media_info():
     logger.warning("Identify the selected files. selected_files: ")
     logger.warning(selo)
     print("file_names: ",file_names)
-    for vvv in selo:#Selected files
-        for ccc, files in enumerate(file_names):#Loop through all media files found
-            print("vvv: ",vvv)
+    for v in selo:#Selected files
+        for c, files in enumerate(file_names):#Loop through all media files found
+            print("v: ",v)
             print("folder_path+/+files: ",folder_path+"/"+files)
             logger.warning(folder_path+"/"+files)
-            if folder_path+"/"+files == vvv:
-                kivalasztott_sorszam.append(ccc)
-                logger.warning("Találat! ccc:")
-                print("Találat! ccc: ", ccc)
-                logger.warning(ccc)
+            if folder_path+"/"+files == v:
+                kivalasztott_sorszam.append(c)
+                logger.warning("Találat! c:")
+                print("Találat! c: ", c)
+                logger.warning(c)
 
 
 
