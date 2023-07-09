@@ -14,7 +14,7 @@ selo = 0
 kivalasztott_sorszam = []
 #print('The script was run from', folder_path)
 #print('The selected files/folders:\n', selected_files)
-#0001
+#0001578
 
 if test == 0:
     print("Nem teszt")
