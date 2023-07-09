@@ -6,7 +6,7 @@ import logging
 import json
 from os.path import abspath, dirname
 
-test = 1
+test = 0
 olvaszt = 0
 what_audio = 0
 what_subtitle = 1
@@ -129,31 +129,33 @@ def okok():
                 dest_path = file_path.replace(".mkv", " inprogress.ass")
                 dest_path = dest_path.replace(".mp4", " inprogress.ass")
                 dest_path = dest_path.replace(".avi", " inprogress.ass")
-            mycommand1 = "-i"
-           # mycommand2 = ["-map", "0:s", "copy"]
-            mycommand2 = ["-map", "0:s", "copy"]
-            myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
-            logger.warning("Hoooo")
-            logger.warning(dest_path)
-            logger.warning("myCommand")
-            print("myCommand: ",myCommand)
-            logger.warning(myCommand)
-            logger.warning(kivalasztott_sorszam)
-            logger.warning("LOOPOLGATAS")
-            lang = []
-            jjj = get_metadata(file_sub_languages,[kivalasztott_sorszam[0]][numbering_s])
-            for www in jjj:
-                lang.append(www)
-            logger.warning(lang)
-            logger.warning(str(lang))
-            finished_filename = dest_path.replace("inprogress", str(lang))
-            logger.warning("finished_filename")
-            logger.warning(finished_filename)
-            #os.system(myCommand)
-            subprocess.call(myCommand)
-            os.rename(dest_path, finished_filename)
-            print("Finished ",dest_path)
-            numbering_s += 1
+            for nnn, files in enumerate(file_subtitles[kivalasztott_sorszam[0]]):  #Seperate file needed for every subtitle track
+                mycommand1 = "-i"
+               # mycommand2 = ["-map", "0:s", "copy"]
+                mycommand2 = ["-map", "0:s:0", "-acodec", "copy"]
+                myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
+                logger.warning("Hoooo")
+                logger.warning(dest_path)
+                logger.warning("myCommand")
+                print("myCommand: ",myCommand)
+                logger.warning(myCommand)
+                logger.warning(kivalasztott_sorszam)
+                logger.warning("LOOPOLGATAS")
+                lang = []
+                jjj = get_metadata(file_sub_languages,[kivalasztott_sorszam[0]][numbering_s])
+                print("Language: ",jjj)
+                for www in jjj:
+                    lang.append(www)
+                logger.warning(lang[nnn])
+                logger.warning(str(lang[nnn]))
+                finished_filename = dest_path.replace("inprogress", str(lang[nnn]))
+                logger.warning("finished_filename")
+                logger.warning(finished_filename)
+                #os.system(myCommand)
+                subprocess.call(myCommand)
+                os.rename(dest_path, finished_filename)
+                print("Finished ",dest_path)
+                numbering_s += 1
 def get_metadata(typey,number):
     return typey[number]
 
