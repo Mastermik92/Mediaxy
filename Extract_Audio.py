@@ -6,8 +6,10 @@ import logging
 import json
 from os.path import abspath, dirname
 
-test = 0
+test = 1
 olvaszt = 0
+what_audio = 0
+what_subtitle = 1
                 #Terminalban futtatni, durationt nem találja
 
 selo = 0
@@ -28,9 +30,12 @@ if test == 0:
 else:
     print("Teszt")
     #selo = range(1)
-    selo = ["11.mkv"]
-    folder_path = "11/11"
-    selected_files = "11.mkv"
+    print("Tesztfiles, seperated with commas")
+    selo = [input()]
+    print("Tesztfolder, where the media file(s) located")
+    folder_path = input()
+    print("Tesztfile")
+    selected_files = input()
 
 
 logger = logging.getLogger('mylogger')
@@ -50,7 +55,8 @@ def okok():
         logger.warning("selected_files: ")
         logger.warning(selected_files)
     numbering = 0
-    for ppp in selo:# selo:
+    numbering_s = 0
+    for ppp in selo:# selo: selected files
         logger.warning("ppp : ")
         logger.warning(ppp)
         if test == 0:
@@ -65,44 +71,89 @@ def okok():
             logger.warning("test")
         #Célfájl
         logger.warning("Celfajl")
-        #dest_path = file_path.replace(".mkv", " inprogress.mka").replace(".mp4", " inprogress.mka").replace(".avi", " inprogress.mka")
-        dest_path = file_path.replace(".mkv", " inprogress.mka")
-        dest_path = dest_path.replace(".mp4", " inprogress.mka")
-        dest_path = dest_path.replace(".avi", " inprogress.mka")
-        logger.warning("Hoooo")
-        logger.warning(dest_path)
-        mycommand1 = "-i"
-        mycommand2 = ["-map", "0:a", "-acodec", "copy"]
-        myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
-        logger.warning("myCommand")
-        print("myCommand: ",myCommand)
-        logger.warning(myCommand)
-        #myCommand = "ffmpeg" + " -i " + file_path + " -map 0:a -acodec copy " + dest_path
-        logger.warning(kivalasztott_sorszam)
-        logger.warning("LOOPOLGATAS")
-        lang = []
-        jjj = get_metadata(file_audio_languages,kivalasztott_sorszam[numbering]) #get file_audio_languages
-        for www in jjj:
-            lang.append(www)
- #       for u in kivalasztott_sorszam:
- #           logger.warning(u)
- #           lang = []
-  #          for w in file_audio_languages[u]:
- # #              jjj = w.replace("", "")
- #               jjj = w.strip("'")
- #               lang.append(jjj)
- #               logger.warning(lang)
- #           logger.warning(lang)
-        logger.warning(lang)
-        logger.warning(str(lang))
-        finished_filename = dest_path.replace("inprogress", str(lang))
-        logger.warning("finished_filename")
-        logger.warning(finished_filename)
-        #os.system(myCommand)
-        subprocess.call(myCommand)
-        os.rename(dest_path, finished_filename)
-        print("Finished ",dest_path)
-        numbering += 1
+        if what_audio == 1:
+            #audio
+            dest_path = file_path.replace(".mkv", " inprogress.mka")
+            dest_path = dest_path.replace(".mp4", " inprogress.mka")
+            dest_path = dest_path.replace(".avi", " inprogress.mka")
+            mycommand1 = "-i"
+            mycommand2 = ["-map", "0:a", "-acodec", "copy"]
+            myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
+            logger.warning("Hoooo")
+            logger.warning(dest_path)
+            logger.warning("myCommand")
+            print("myCommand: ",myCommand)
+            logger.warning(myCommand)
+            #myCommand = "ffmpeg" + " -i " + file_path + " -map 0:a -acodec copy " + dest_path
+            logger.warning(kivalasztott_sorszam)
+            logger.warning("LOOPOLGATAS")
+            lang = []
+            jjj = get_metadata(file_audio_languages,kivalasztott_sorszam[numbering]) #get file_audio_languages
+            for www in jjj:
+                lang.append(www)
+     #       for u in kivalasztott_sorszam:
+     #           logger.warning(u)
+     #           lang = []
+      #          for w in file_audio_languages[u]:
+     # #              jjj = w.replace("", "")
+     #               jjj = w.strip("'")
+     #               lang.append(jjj)
+     #               logger.warning(lang)
+     #           logger.warning(lang)
+            logger.warning(lang)
+            logger.warning(str(lang))
+            finished_filename = dest_path.replace("inprogress", str(lang))
+            logger.warning("finished_filename")
+            logger.warning(finished_filename)
+            #os.system(myCommand)
+            subprocess.call(myCommand)
+            os.rename(dest_path, finished_filename)
+            print("Finished ",dest_path)
+            numbering += 1
+
+        if what_subtitle == 1:
+            #sub extract
+            logger.warning("kivalasztott sub: ")
+            logger.warning(file_subtitles[kivalasztott_sorszam[0]][numbering_s])
+            logger.warning("file_subtitles, kivalasztott_sorszam, numbering_s")
+            logger.warning(file_subtitles)
+            logger.warning(kivalasztott_sorszam[0])
+            logger.warning(numbering_s)
+            if file_subtitles[kivalasztott_sorszam[0]][numbering_s] == str("subrip"):
+                logger.warning("subrip ")
+                dest_path = file_path.replace(".mkv", " inprogress.srt")
+                dest_path = dest_path.replace(".mp4", " inprogress.srt")
+                dest_path = dest_path.replace(".avi", " inprogress.srt")
+            else:
+                logger.warning("else ")
+                dest_path = file_path.replace(".mkv", " inprogress.ass")
+                dest_path = dest_path.replace(".mp4", " inprogress.ass")
+                dest_path = dest_path.replace(".avi", " inprogress.ass")
+            mycommand1 = "-i"
+           # mycommand2 = ["-map", "0:s", "copy"]
+            mycommand2 = ["-map", "0:s", "copy"]
+            myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
+            logger.warning("Hoooo")
+            logger.warning(dest_path)
+            logger.warning("myCommand")
+            print("myCommand: ",myCommand)
+            logger.warning(myCommand)
+            logger.warning(kivalasztott_sorszam)
+            logger.warning("LOOPOLGATAS")
+            lang = []
+            jjj = get_metadata(file_sub_languages,[kivalasztott_sorszam[0]][numbering_s])
+            for www in jjj:
+                lang.append(www)
+            logger.warning(lang)
+            logger.warning(str(lang))
+            finished_filename = dest_path.replace("inprogress", str(lang))
+            logger.warning("finished_filename")
+            logger.warning(finished_filename)
+            #os.system(myCommand)
+            subprocess.call(myCommand)
+            os.rename(dest_path, finished_filename)
+            print("Finished ",dest_path)
+            numbering_s += 1
 def get_metadata(typey,number):
     return typey[number]
 
@@ -163,6 +214,7 @@ def get_media_info():
             video_durations = []
             video_def= []
             video_forced = []
+            logger.warning("video")
 
             for stream in video_info['streams']:
                 if stream['codec_type'] == 'video':
@@ -198,6 +250,7 @@ def get_media_info():
 
 
 #Audio section
+            logger.warning("audio")
             logger.warning(str(filename + " audio kezdodik"))
             print(str(filename + " audio kezdodik"))
             audio_channels = []
@@ -304,24 +357,42 @@ def get_media_info():
     print("Subtitle def ",file_sub_def)
     print("Subtitle f ",file_sub_forced)
     print("kivalasztott_sorszam ",kivalasztott_sorszam)
-
+    
+    logger.warning("results: ")
     logger.warning(file_names)
+    logger.warning("file_sizes: ")
     logger.warning(file_sizes)
+    logger.warning("file_video_durations: ")
     logger.warning(file_video_durations)
+    logger.warning("file_video_codec_1: ")
     logger.warning(file_video_codec_1)
+    logger.warning("file_video_codec_2: ")
     logger.warning(file_video_codec_2)
+    logger.warning("file_video_codec_3: ")
     logger.warning(file_video_codec_3)
+    logger.warning("file_video_width: ")
     logger.warning(file_video_width)
+    logger.warning("file_video_height: ")
     logger.warning(file_video_height)
+    logger.warning("file_audio_channels: ")
     logger.warning(file_audio_channels)
+    logger.warning("file_audio_languages: ")
     logger.warning(file_audio_languages)
+    logger.warning("file_audio_duration: ")
     logger.warning(file_audio_duration)
+    logger.warning("file_audio_codec: ")
     logger.warning(file_audio_codec)
+    logger.warning("file_subtitles: ")
     logger.warning(file_subtitles)
+    logger.warning("file_sub_languages: ")
     logger.warning(file_sub_languages)
+    logger.warning("file_sub_durations: ")
     logger.warning(file_sub_durations)
+    logger.warning("file_sub_def: ")
     logger.warning(file_sub_def)
+    logger.warning("file_sub_forced: ")
     logger.warning(file_sub_forced)
+    logger.warning("kivalasztott_sorszam: ")
     logger.warning(kivalasztott_sorszam)
     logger.warning(kivalasztott_sorszam)
     logger.warning(kivalasztott_sorszam)
