@@ -10,7 +10,6 @@ test = 0
 olvaszt = 0
 what_audio = 0
 what_subtitle = 1
-                #Terminalban futtatni, durationt nem találja
 
 selo = 0
 kivalasztott_sorszam = []
@@ -132,7 +131,7 @@ def okok():
             for nnn, files in enumerate(file_subtitles[kivalasztott_sorszam[0]]):  #Seperate file needed for every subtitle track
                 mycommand1 = "-i"
                # mycommand2 = ["-map", "0:s", "copy"]
-                mycommand2 = ["-map", "0:s:0", "-acodec", "copy"]
+                mycommand2 = ["-map", "0:s:0", "-acodec", "copy"]   #0:s:0 atalakitani 0:s:nnn re
                 myCommand = ("ffmpeg",mycommand1,file_path,*mycommand2,dest_path)
                 logger.warning("Hoooo")
                 logger.warning(dest_path)
